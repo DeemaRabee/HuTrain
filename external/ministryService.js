@@ -40,16 +40,22 @@ class MinistryService {
 
 module.exports = MinistryService;*/
 // external/ministryService.js
+
 const axios = require('axios');
 const ApiError = require('../utils/apiError');
 const logger = require('../utils/logger');
 
-const MINISTRY_BASE_URL = 'http://localhost:8000/api/company'; // عنوان سستم الوزارة
-
+const MINISTRY_BASE_URL = 'https://ministry-system.onrender.com/api/company'; // عنوان سستم الوزارة
+const MINISTRY_API_KEY = process.env.MINISTRY_API_KEY;
 class MinistryService {
   static async verifyCompany(nationalId) {
     try {
-      const response = await axios.get(`${MINISTRY_BASE_URL}/verify/${nationalId}`);
+      //const response = await axios.get(`${MINISTRY_BASE_URL}/verify/${nationalId}`);
+      const response = await axios.get(`${MINISTRY_BASE_URL}/verify/${nationalId}`, {
+        headers: {
+          'Authorization': `Bearer ${MINISTRY_API_KEY}`
+        }
+      });
       const { exists, isVerified } = response.data;
 
       logger.info(`Company verification check: ${nationalId} - ${exists && isVerified ? 'Verified' : 'Not verified'}`);
@@ -68,3 +74,34 @@ class MinistryService {
 }
 
 module.exports = MinistryService;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
